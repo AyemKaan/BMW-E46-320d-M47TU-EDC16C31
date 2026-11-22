@@ -1,9 +1,9 @@
 # BMW E46 320d (M47TÜ) EDC16C31 — ECU Analysis & Stage 1 / 2 / 3 + Popcorn Calibration Report
 
-**Date:** 2026-11-04  
+**Date:** 2026-11-23 *(Updated with Stage 2 StockVNT, Binary Audit Fixes & 4-Bar MAP Stage 3)*  
 **Base File Analyzed:** `bmw backup.bin`  
 **Reference A2L / DAMOS Sources:** Bosch EDC16 A2L / DAMOS Database (`361811BMWEDC16.ols`, `BMW_30D_EDC16_218PS__E60.ols`, `BMW E87 120d DDE5.0 120kW.ols`, `4M534389.A2L`, `4M702389.A2L`)  
-**Hardware Setup:** Bosch CP3 **R70** High-Pressure Fuel Pump + Bosch **0 445 110 216** Injectors + **Hybrid Turbo** + **GM 5L40-E 5-Speed Automatic Transmission** + **Stock 3-Bar MAP Sensor (`3000 mbar`)** + **Stock 1800-Bar Rail Pressure Sensor (`1650 bar` safe operating ceiling)**
+**Hardware Setup:** Bosch CP3 **R70** High-Pressure Fuel Pump + Bosch **0 445 110 216** Injectors + **Big-Wheel Vacuum-Actuated Hybrid Turbo** + **GM 5L40-E 5-Speed Automatic Transmission** + **Stock 3-Bar MAP Sensor (`0 281 002 437`, `3000 mbar`)** *(or BMW OEM 4-Bar MAP `13 62 7 792 260` + FMIC for Stage 3 4-Bar)* + **Stock 1800-Bar Rail Pressure Sensor (`1650 bar` safe operating ceiling)**
 
 > **Note:** For independent byte-level comparison and verification caveats regarding the Stage 2/3 variant files (including SOI window/scaling checks, 2nd rail table boundary overlap, and checksum verification status), also see [`stage2_variants/Stage2_File_Comparison.md`](stage2_variants/Stage2_File_Comparison.md).
 
@@ -145,10 +145,13 @@ The matrix below details the calibration targets for the four `.bin` files gener
 
 | File Name | Size | MD5 Hash | Description |
 | :--- | :--- | :--- | :--- |
-| `BMW_E46_320d_R70_216_Hybrid_Stage1.bin` | 1,048,576 B | `5c63681a2f2a92dd1d0121de6b4e0e4c` | Stage 1 (440 Nm / ~72 mg / 1.60 bar Boost / 1650 bar Rail / 216 Injectors / GM 5L40-E Protection / EGR Off) |
-| `BMW_E46_320d_R70_216_Hybrid_Stage2.bin` | 1,048,576 B | `7b945c6124e0ededb2a72eb31836fc9e` | Stage 2 (485 Nm / ~80 mg / 1.68 bar Boost / 1650 bar Rail / 216 Injectors / GM 5L40-E Protection / Hybrid VNT / Flaps & EGR Off) |
-| `BMW_E46_320d_R70_216_Hybrid_Stage3.bin` | 1,048,576 B | `af8e6d70defa440bd73e05a8f7eae99e` | Stage 3 (515 Nm / ~90 mg / 1.78 bar Boost - 2850 SVBL / 1650 bar Rail / 216 Injectors / GM 5L40-E Protection / Full SOI & VNT) |
-| `BMW_E46_320d_R70_216_Hybrid_Stage3_Popcorn_4800RPM.bin` | 1,048,576 B | `473863e9e3037357dda31f3e5af4ae46` | Stage 3 + **4800 RPM Popcorn / Hardcut Limiter** (`4790 → 4800 RPM` synchronized across all torque limiters and NM2IQ + GM 5L40-E Protection) |
+| `BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT.bin` | 1,048,576 B | `d0f2629c2e3a94692ab83c7ff8861d3e` | **Recommended Stage 2 (Stock 3-Bar MAP)** — Factory BMW Stock VNT (`65.5→44.2%` low / `37.4→15.7%` high) + Stock `PCR_rGvnrMax`, Hot-IAT VNT bonus zeroed, Overboost PID (`PKpNeg +35% / IKiNeg +50% / facP 10–9`), `2650 mbar` peak / `2900 SVBL`, clean Swirl/SOI/Rail |
+| `BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT_Popcorn_4800RPM.bin` | 1,048,576 B | `7b7b079a5478eae835f19e2d1d9409f6` | **Stage 2 StockVNT + 4800 RPM Popcorn** — Synchronized 1-RPM `4799 → 4800 RPM` Hardcut across all 6 torque limiters & 3 NM2IQ maps on the `Stage2_StockVNT` calibration |
+| `BMW_E46_320d_R70_216_Hybrid_Stage3_4BarMAP_Popcorn_4800RPM.bin` | 1,048,576 B | `39c9ea66fe0adec39782fe53768f4216` | **Stage 3 (Requires BMW OEM 4-Bar MAP `13 62 7 792 260` + FMIC!)** — `BPSCD_pLin_CUR` 4-bar curve, `2950 mbar` boost / `3100 SVBL`, `515 Nm` GM 5L40-E protection, Factory Stock VNT + Stock `PCR_rGvnrMax`, clean Swirl/SOI/Rail, crisp `4799 → 4800 RPM` 1-RPM Popcorn |
+| `BMW_E46_320d_R70_216_Hybrid_Stage1.bin` | 1,048,576 B | `5c63681a2f2a92dd1d0121de6b4e0e4c` | Stage 1 (440 Nm / ~72 mg / 1.60 bar Boost / 1650 bar Rail / 216 Injectors / Stock VNT / GM 5L40-E Protection / EGR Off) |
+| `BMW_E46_320d_R70_216_Hybrid_Stage2.bin` | 1,048,576 B | `7b945c6124e0ededb2a72eb31836fc9e` | Legacy Stage 2 reference (superseded by `Stage2_StockVNT.bin`) |
+| `BMW_E46_320d_R70_216_Hybrid_Stage3.bin` | 1,048,576 B | `af8e6d70defa440bd73e05a8f7eae99e` | Legacy Stage 3 (Stock 3-Bar MAP — 515 Nm / ~90 mg / 2780 mbar Boost - 2850 SVBL) |
+| `BMW_E46_320d_R70_216_Hybrid_Stage3_Popcorn_4800RPM.bin` | 1,048,576 B | `473863e9e3037357dda31f3e5af4ae46` | Legacy Stage 3 (Stock 3-Bar MAP) + `4790 → 4800 RPM` Hardcut / Popcorn |
 
 ---
 
@@ -186,35 +189,80 @@ Inspection of `berat son 19.10.2026` (`MD5: 15d661e458a80fa8cf1a85f774cae747`) s
 
 ---
 
-## 7. Map Address Reference Table (WinOLS / TunerPro)
+## 7. Stage 2 StockVNT Calibration, Binary Audit Bug Fixes & 4-Bar MAP Stage 3
+
+### 7.1. Full Binary Audit Cleanup (Applied to `Stage2_StockVNT.bin` & `Stage3_4BarMAP_Popcorn_4800RPM.bin`)
+A complete byte-level audit against the Bosch E60/E87 DAMOS uncovered 3 inherited boundary bugs in the legacy Stage 2/3 files, all fixed cleanly in the current binaries:
+
+- **Swirl Flaps (`IndSys_rVSA_MAP` @ `0x0E9EEC..0x0EA0EC`):** Fixed a 2-byte offset overrun (`0x0E9EEC` left at `10000`, `0x0EA0EC` accidentally zeroed from `100` → restored to `100`).
+- **SOI Maps 1–5 (`InjCrv_phiMI1Bas1..5_MAP` @ `0x0EA80C..0x0EB31C`):** Fixed a 2-byte boundary shift that misaligned the final cell (`4800 RPM / 75 mg`) on all 5 SOI maps.
+- **Rail Map 2 (`0x0FCE64..0x0FD064`):** Restored the last two cells (`0x0FD060` / `0x0FD062`) back to `16485` (`1648.5 bar`) after legacy tuning mislabeled them as standalone rail single limiters (`16550`).
+
+### 7.2. Clean Factory Stock VNT + Overboost Control (`Stage2_StockVNT.bin`)
+With a healthy, sealed turbo vacuum circuit, the big-wheel hybrid turbo spools rapidly and **does not** want artificially over-closed low-RPM VNT maps (which trigger launch/low-RPM >3 bar overboost and MAP fuel cut). Meanwhile, legacy `Stage2.bin` had inherited an over-closed `VNT1` (`0x0F7F44`: `95% → 78.5% → 71.6% → 65.6% → 60.3% → 56.6%`) and a broken `-16%` cliff in `VNT2–4`.
+
+[BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT.bin](BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT.bin) restores **pure BMW M47N factory stock VNT (`0–2500 RPM`)**, BMW's smooth open-vane **stock `VNT2/3` profile (`2750–4750 RPM`)**, and **pure factory stock `PCR_rGvnrMax_MAP`**, paired with full overboost & hot-IAT protection:
+
+| RPM (75 mg) | Legacy `Stage2.bin` `VNT1` | **`Stage2_StockVNT` Base VNT** | **Stock `PCR_rGvnrMax` Ceiling** | **Target Boost** |
+| :---: | :---: | :---: | :---: | :---: |
+| **1500** | `95.0%` | **`80.0%`** | **`85.0%`** | `2020 mbar` |
+| **1750** | `78.5%` | **`65.5%`** | **`78.0%`** | `2260 mbar` |
+| **2000** | `71.6%` | **`55.5%`** | **`68.0%`** | `2480 mbar` |
+| **2250** | `65.6%` | **`49.5%`** | **`62.0%`** | `2600 mbar` |
+| **2500** | `60.3%` | **`44.2%`** | **`56.7%`** | `2650 mbar` |
+| **2750** | `58.3%` | **`37.4%`** | **`54.8%`** | `2650 mbar` |
+| **3000** | `56.6%` | **`35.4%`** | **`53.0%`** | `2650 mbar` |
+| **3500** | `52.1%` | **`29.0%`** | **`48.5%`** | `2650 mbar` |
+| **4000** | `51.6%` | **`27.0%`** | **`48.0%`** | `2620 mbar` |
+| **4200** | `49.6%` | **`23.4%`** | **`46.0%`** | `2580 mbar` |
+| **4400** | `48.6%` | **`20.1%`** | **`45.0%`** | `2540 mbar` |
+| **4750** | `50.6%` | **`15.7%`** | **`47.0%`** | `2480 mbar` |
+
+- **Hot-IAT VNT Closing Bonus Eliminated:** Stock `PCR_facCtlIAT_CUR` (`0x0F7EC6`) × `PCR_rCtlATCmpn_MAP` (`0x0F8F6A`) silently added `+3.6%` VNT closure above `50°C` IAT (observed up to `90.7°C` on the stock intercooler); `30/40/50°C` points (`0x0F7EE2..0x0F7EE6`) are zeroed while cold-weather compensation stays intact.
+- **Faster Base VNT Opening Ramp:** `PCR_rBPCtlBasDwn_C` (`0x0F7EFC`) raised from `50 %/s` (`268,435`) to **`80 %/s` (`429,497`)**.
+- **Overboost PID Gains:** `PCR_PKpNeg_C` (`0x0FA218`) **`+35%`** (`5,073,430`), `PCR_IKiNeg_C` (`0x0FA208`) **`+50%`** (`422,213`), `PCR_DKdNeg_C` (`0x0F9D58`) **`+30%`** (`3,489,662`), `PCR_facP_MAP` (`0x0FA186`, `2500–4750 RPM`) `8/7/5/5 → 11/10/9/9`, `PCR_facD_MAP` (`0x0F9E0A`, `2600–4502 RPM`) `31/27/15/15 → 36/32/24/24`.
+- **Active 3-Bar MAP Safety Headroom:** `SVBL = 2900 mbar` (`0x0F9C60`), `AtmMax = 2850 mbar` (`0x0F9A48`), `BPSCD_uSRCMax_C = 1000` (`0x0E384A`), `BPSCD_DebSRCHighDef_C = 15` (`0x0E3866`), `PCR_pBGDevMin_C = -350 mbar` (`0x0FA6D2`), `PCR_DebSRCLowDef_C = 750` (`0x0FA6C4`).
+- **4800 RPM Popcorn Variant:** [BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT_Popcorn_4800RPM.bin](BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT_Popcorn_4800RPM.bin) (`MD5: 7b7b079a5478eae835f19e2d1d9409f6`) adds a synchronized 1-RPM `4799 → 4800 RPM` Hardcut across all 6 torque limiters and all 3 NM2IQ maps while preserving every `Stage2_StockVNT` parameter intact.
+
+### 7.3. Stage 3 — 4-Bar MAP + 4800 RPM Popcorn (`Stage3_4BarMAP_Popcorn_4800RPM.bin`)
+Built cleanly on the same audited **Factory Stock VNT** base for users upgrading from the stock 3-bar MAP and stock intercooler:
+- **Mandatory Hardware Before Flashing:** **BMW OEM 4-Bar MAP Sensor (`13 62 7 792 260` / Bosch `0 281 002 997`, plug-and-play E46 connector)** + **Upgraded Front-Mount Intercooler (FMIC)**.
+- **MAP Linearization (`BPSCD_pLin_CUR` @ `0x0E384C`):** `X = [0, 102, 921, 1023]`, `Y = [63, 500, 4000, 4438] mbar`; SRC bounds `BPSCD_uSRCMin_C = 31`, `BPSCD_uSRCMax_C = 985`.
+- **Calibration Targets:** `515 Nm` GM 5L40-E protected torque (`~88–90 mg/str`), `2950 mbar` peak boost (`3100 mbar` SVBL / `3050 mbar` AtmMax), Factory Stock VNT + Stock `PCR_rGvnrMax` + Hot-IAT/PID package, `0.92–1.03` Lambda, clean SOI (`32.51° CA`), `1650 bar` rail, and synchronized 1-RPM **`4799 → 4800 RPM` Popcorn Hardcut**.
+
+---
+
+## 8. Map Address Reference Table (WinOLS / TunerPro — `SW 1037361858`)
 
 | Category | Map Description | Start Address (Hex) | Size | Data Type / Factor |
 | :--- | :--- | :--- | :--- | :--- |
 | **Pedal** | Driver Wish 1 (`AccPed_trqEngLow_MAP`) | `0x0E0672` *(Axis: `0x0E063C`)* | 16x9 | 16-bit HiLo Signed, `× 0.1 = Nm` |
 | **Pedal** | Driver Wish 2 (`AccPed_trqEngHigh_MAP`) | `0x0E08B6` *(Axis: `0x0E0880`)* | 16x9 | 16-bit HiLo Signed, `× 0.1 = Nm` |
 | **Air / EGR** | EGR Map (`AirCtl_mDesBas_MAP`) | `0x0E13AE` *(Axis: `0x0E1372`)* | 12x16 | 16-bit HiLo, `× 0.1 = mg/str` |
-| **Air / EGR** | EGR Hysteresis 1 (`AirCtl_qHiRgn_CUR`) | `0x0E2A22` *(Axis: `0x0E29EE`)* | 25x1 | 16-bit HiLo, `× 0.01 = mg/str` |
-| **Air / EGR** | EGR Hysteresis 2 (`AirCtl_qLoRgn_CUR`) | `0x0E2B54` *(Axis: `0x0E2B20`)* | 25x1 | 16-bit HiLo, `× 0.01 = mg/str` |
-| **Air / Flaps** | Swirl Flaps (`IndSys_rVSA_MAP`) | `0x0E9EEE` *(Axis: `0x0E9EA8`)* | 16x16 | 16-bit HiLo, `× 0.01 = %` |
-| **Torque** | Torque Limiter 1 | `0x0E66DA` *(Axis: `0x0E66AE`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
+| **Air / EGR** | EGR Hysteresis 1 & 2 (`AirCtl_qHiRgn_CUR` / `qLoRgn_CUR`) | `0x0E2A22`, `0x0E2B54` | 25x1 (x2) | 16-bit HiLo, `× 0.01 = mg/str` |
+| **MAP Sensor** | MAP Linearization & SRC (`BPSCD_pLin_CUR`, `uSRCMin/Max`, `DebSRCHigh`) | `0x0E384C`, `0x0E3848/4A`, `0x0E3866` | 4x1, 1x1 | 16-bit HiLo (`mbar` / ADC / ticks) |
+| **DTC Table** | DTC Switch Classes (`DSM_ClaDfp` — `BPSCD` / `PCR_GovDevNeg/Pos`) | `0x0E515C`, `0x0E51C7`, `0x0E51C8` | 8-bit | `0x0B` / `0x06` (`0x00 = Off`) |
+| **Air / Flaps** | Swirl Flaps (`IndSys_rVSA_MAP`) | `0x0E9EEC` *(Axis: `0x0E9EA8`)* | 16x16 | 16-bit HiLo, `× 0.01 = %` |
+| **Torque** | Torque Limiter 1 (`EngPrt_trqLim_CUR`) | `0x0E66DA` *(Axis: `0x0E66AE`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
 | **Torque / EGS** | AT Converter Lock-Up Gear Switch (`EngPrt_swtTrqGear_CUR`) | `0x0E6D86` *(Axis: `0x0E6D74`)* | 8x1 | 16-bit HiLo, `0 = Off, 1 = Active` |
 | **Torque** | Torque Limiter 2 (Main Torque Limiter) | `0x0E6DC2` *(Axis: `0x0E6D96`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
 | **Torque** | Torque Limiter 3 (Launch Limiter `EngPrt_trqLimDA_CUR`) | `0x0E6E18` *(Axis: `0x0E6DEC`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
-| **Torque / EGS** | Torque Limiter 4 (AT Converter Lock-Up `EngPrt_trqLim1_CUR`) | `0x0E6E6A` *(Axis: `0x0E6E42`)* | 19x1 | 16-bit HiLo, `× 0.1 = Nm` |
-| **Torque** | Torque Limiter 5 | `0x0E6EC4` *(Axis: `0x0E6E98`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
+| **Torque / EGS** | Torque Limiter 4 (AT Converter Lock-Up `EngPrt_trqCBLim_CUR`) | `0x0E6E6A` *(Axis: `0x0E6E42`)* | 19x1 | 16-bit HiLo, `× 0.1 = Nm` |
+| **Torque** | Torque Limiter 5 (`EngPrt_trqCBLim1_CUR`) | `0x0E6EC4` *(Axis: `0x0E6E98`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
 | **Torque / Rev Cut** | Torque Limiter 6 / Rev Limiter (`EngPrt_trqNLim_CUR`) | `0x0E6F1A` *(Axis: `0x0E6EEE`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
 | **Transmission** | 1st–6th Gear & Reverse Torque Limits (`Gearbx_trqMaxGear1..R_CUR`) | `0x0E943A`, `0x0E94A0`, `0x0E9506`, `0x0E956C`, `0x0E95D2`, `0x0E9638`, `0x0E969E` | 15x1 (x7) | 16-bit HiLo, `× 0.1 = Nm` |
-| **Smoke** | Lambda / Smoke Map 1 (`FlMng_rLmbdSmk_MAP`) | `0x0E77D2` *(Axis: `0x0E778E`)* | 16x16 | 16-bit HiLo, `× 0.001 = Lambda` |
-| **Smoke** | Lambda / Smoke Map 2 (`FlMng_rLmbdSmk2_MAP`) | `0x0E7A16` *(Axis: `0x0E79D2`)* | 16x16 | 16-bit HiLo, `× 0.001 = Lambda` |
-| **Conversion** | Torque → IQ Map 1 (`FMTC_trq2qBas_MAP`) | `0x0E80EA` *(Axis: `0x0E80A6`)* | 16x16 | 16-bit HiLo, `× 0.01 = mg/str` |
-| **Conversion** | Torque → IQ Map 2 | `0x0E832E` *(Axis: `0x0E82EA`)* | 16x16 | 16-bit HiLo, `× 0.01 = mg/str` |
-| **Conversion** | Torque → IQ Map 3 | `0x0E8572` *(Axis: `0x0E852E`)* | 16x16 | 16-bit HiLo, `× 0.01 = mg/str` |
-| **Timing (SOI)** | SOI Maps 1 – 5 (`InjCrv_phiMI1Bas1..5_MAP`) *(verify window/scaling before use)* | `0x0EA80A`, `0x0EAA4E`, `0x0EAC92`, `0x0EAED6`, `0x0EB11A` | 16x16 (x5) | 16-bit HiLo Signed, `× 0.0234375 = °CA` |
+| **Smoke** | Lambda / Smoke Maps 1 & 2 (`FlMng_rLmbdSmk_MAP` / `Smk2`) | `0x0E77D2`, `0x0E7A16` | 16x16 (x2) | 16-bit HiLo, `× 0.001 = Lambda` |
+| **Conversion** | Torque → IQ Maps 1–3 (`FMTC_trq2qBas_MAP`) | `0x0E80EA`, `0x0E832E`, `0x0E8572` | 16x16 (x3) | 16-bit HiLo, `× 0.01 = mg/str` |
+| **Timing (SOI)** | SOI Maps 1 – 5 (`InjCrv_phiMI1Bas1..5_MAP`) | `0x0EA80C`, `0x0EAA50`, `0x0EAC94`, `0x0EAED8`, `0x0EB11C` | 16x16 (x5) | 16-bit HiLo Signed, `× 0.0234375 = °CA` |
 | **Duration (Ti)** | Injector Duration 1 – 6 (`InjVCD_tiET_MAP`) | `0x0F5364`, `0x0F57C8`, `0x0F5C2C`, `0x0F6090`, `0x0F64F4`, `0x0F6958` | 16x32 (x6) | 16-bit HiLo, `× 1.0 = µs` |
-| **Turbo VNT** | VNT Duty Cycle 1 – 4 (`PCR_rCtlBas_MAP`) | `0x0F7F44`, `0x0F8478`, `0x0F86BC`, `0x0F8900` | 16x16 (x4) | 16-bit HiLo, `× 0.012207 = %` |
+| **Turbo VNT** | VNT IAT Factor & Ramp Down (`PCR_facCtlIAT_CUR`, `rBPCtlBasDwn_C`) | `0x0F7EC6` *(8x1)*, `0x0F7EFC` *(u32)* | 8x1, 1x1 | `÷ 8192 = factor` / `÷ 5368.71 = %/s` |
+| **Turbo VNT** | VNT Duty Cycle 1 – 4 (`PCR_rBPCtlBasAirCtlOff`..`PCR_rCtlBas_MAP`) | `0x0F7F44`, `0x0F8478`, `0x0F86BC`, `0x0F8900` | 16x16 (x4) | 16-bit HiLo, `× 0.012207 = %` |
 | **Turbo Boost** | Target Boost 1 – 3 (`PCR_pDesBas_MAP`) | `0x0F9394`, `0x0F95D8`, `0x0F981C` | 16x16 (x3) | 16-bit HiLo, `× 1.0 = mbar` |
-| **Turbo Limit** | Atmospheric Max Boost (`PCR_pDesMaxAP_MAP`) | `0x0F9A48` *(Axis: `0x0F9A1C`)* | 10x10 | 16-bit HiLo, `× 1.0 = mbar` |
-| **Turbo SVBL** | Single Value Boost Limit (`PCR_pDesMax_C`) | `0x0F9C60` | 1x1 | 16-bit HiLo, `× 1.0 = mbar` |
-| **Rail** | Rail Pressure Map 1 & 2 (`Rail_pSetPointBase_MAP`) *(verify 2nd map boundary)* | `0x0FC9D0`, `0x0FCE64` | 16x16 (x2) | 16-bit HiLo, `× 0.1 = bar` |
-| **Rail Limit** | Rail Single Limit & Max Map (`Rail_pSetPointMax`) | `0x0FD060` (2x1), `0x0FD1DC` (12x8) | 2x1, 12x8 | 16-bit HiLo, `× 0.1 = bar` |
-| **Checksum** | Calibration Block Signature & Checksum Fields *(verify with ECU flash tool)* | `0x0FEF74 – 0x0FEF78`, `0x0FEFF8 – 0x0FEFFC` | 32-bit (x2) | 32-bit Big-Endian |
+| **Turbo Limit** | Atmospheric Max Boost & SVBL (`PCR_pDesMaxAP_MAP` / `PCR_pDesMax_C`) | `0x0F9A48` *(10x10)*, `0x0F9C60` *(1x1)* | 10x10, 1x1 | 16-bit HiLo, `× 1.0 = mbar` |
+| **Turbo PID** | PID Adaptation Maps (`PCR_facD_MAP`, `PCR_facI_MAP`, `PCR_facP_MAP`) | `0x0F9E0A`, `0x0F9EA6`, `0x0FA186` | 10x6 (x3) | 16-bit HiLo, `÷ 128 = factor` |
+| **Turbo PID** | PID Overboost Gains (`PCR_DKdNeg_C`, `PCR_IKiNeg_C`, `PCR_PKpNeg_C`) | `0x0F9D58`, `0x0FA208`, `0x0FA218` | 32-bit (x3) | 32-bit HiLo (`Kd / Ki / Kp`) |
+| **Turbo VNT** | VNT Upper/Lower Limits & I-Cap (`PCR_rGvnrMax`, `Min`, `rOutIMax`) | `0x0FA3DC`, `0x0FA5F0`, `0x0FA634` | 16x16, 4x4, 8x8 | 16-bit HiLo, `× 0.012207 = %` |
+| **Turbo Diag** | Overboost Deviation & Debounce (`PCR_pBGDevMin_C`, `DebSRCLowDef_C`) | `0x0FA6D2` *(s16)*, `0x0FA6C4` *(u16)* | 1x1 (x2) | 16-bit HiLo (`mbar` / ticks) |
+| **Rail** | Rail Pressure Map 1 & 2 (`Rail_pSetPointBase_MAP`) | `0x0FC9D0`, `0x0FCE64` | 16x16 (x2) | 16-bit HiLo, `× 0.1 = bar` |
+| **Rail Limit** | Rail Max Map (`Rail_pSetPointMax_MAP`) | `0x0FD1DC` *(Axis: `0x0FD1B0`)* | 12x8 | 16-bit HiLo, `× 0.1 = bar` |
+| **Checksum** | Calibration Block Signature & 32-bit Block Sum *(re-verify via flash tool)* | `0x0FEF74 – 0x0FEF78`, `0x0FEFF8 – 0x0FEFFC` | 32-bit (x2) | 32-bit Big-Endian |
