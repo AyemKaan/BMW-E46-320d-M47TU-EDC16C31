@@ -13,12 +13,42 @@
 
 ---
 
+## ECU Torque, Estimated Dyno Power & Calibration Charts
+
+![BMW E46 320d ECU Torque & Estimated Output Curves](./docs/dyno_curves.png)
+
+> **Note:** ECU Torque values (`Nm`) are read directly from the active ECU torque limiters (`min(0x0E6DC2, 0x0E6E6A, 0x0E6F1A, 0x0E0672)`). Crank Power (`HP`) is estimated using an M47TÜ friction loss baseline calibrated to the factory 150 HP @ 4000 RPM rating and has not been measured on a physical chassis dyno.
+
+| Engine RPM | Stock OEM Ref (ECU Nm / Est. HP) | Stage 1 (ECU Nm / Est. HP) | **Stage 2 (ECU Nm / Est. HP)** | **Stage 3 (ECU Nm / Est. HP)** | **Stage 3 + 4800 RPM Popcorn** |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| **1000** | 220 Nm / 28.5 HP | 315 Nm / 42.0 HP | **330 Nm / 44.1 HP** | **345 Nm / 46.3 HP** | **345 Nm / 46.3 HP** |
+| **1500** | 340 Nm / 67.2 HP | 360 Nm / 71.5 HP | **375 Nm / 74.7 HP** | **390 Nm / 78.0 HP** | **390 Nm / 78.0 HP** |
+| **1750** | 348 Nm / 79.8 HP | 395 Nm / 91.4 HP | **415 Nm / 96.4 HP** | **435 Nm / 101.4 HP** | **435 Nm / 101.4 HP** |
+| **2000** | 358 Nm / 93.1 HP | 420 Nm / 110.8 HP | **445 Nm / 117.9 HP** | **465 Nm / 123.6 HP** | **465 Nm / 123.6 HP** |
+| **2250** | 362 Nm / 105.2 HP | **440 Nm** / 130.1 HP | **475 Nm / 141.3 HP** | **495 Nm / 147.7 HP** | **495 Nm / 147.7 HP** |
+| **2500** | **367 Nm** / 117.4 HP | **440 Nm** / 143.4 HP | **485 Nm / 159.5 HP** | **515 Nm / 170.1 HP** | **515 Nm / 170.1 HP** |
+| **3000** | 365 Nm / 136.8 HP | 436 Nm / 167.0 HP | **482 Nm / 186.7 HP** | **512 Nm / 199.5 HP** | **512 Nm / 199.5 HP** |
+| **3500** | 348 Nm / 147.3 HP | 432 Nm / 189.4 HP | **478 Nm / 212.3 HP** | **508 Nm / 227.2 HP** | **508 Nm / 227.2 HP** |
+| **4000** | 322 Nm / **149.8 HP** | 423 Nm / 207.3 HP | **470 Nm / 234.1 HP** | **498 Nm / 250.0 HP** | **498 Nm / 250.0 HP** |
+| **4400** | 293 Nm / 142.0 HP | 406 Nm / 213.0 HP | **448 Nm / 239.3 HP** | **476 Nm / 256.9 HP** | **476 Nm / 256.9 HP** |
+| **4600** | 274 Nm / 133.9 HP | 400 Nm / **216.1 HP** | **442 Nm / 243.6 HP** | **470 Nm / 262.0 HP** | **475 Nm / 265.6 HP** |
+| **4790** | 141 Nm / 45.2 HP | 307 Nm / 158.5 HP | **307 Nm / 158.5 HP** | **307 Nm / 158.5 HP** | **475 Nm / 273.0 HP** |
+| **4800** | 134 Nm / 40.3 HP | 288 Nm / 145.6 HP | **288 Nm / 145.6 HP** | **288 Nm / 145.6 HP** | **0 Nm (Hardcut)** |
+| **4950** | 0 Nm / 0.0 HP | 0 Nm / 0.0 HP | **0 Nm / 0.0 HP** | **0 Nm / 0.0 HP** | **0 Nm / 0.0 HP** |
+
+### Boost Targets, GM 5L40-E Per-Gear Protection & Bosch 216 Injector Duration
+
+![BMW E46 320d Boost, GM 5L40-E Gear Protection & Injector Duration](./docs/calibration_overview.png)
+
+---
+
 ## Documentation
 
 | Document | Description |
 | :--- | :--- |
 | [**`BMW_E46_EDC16C31_Analysis_and_Stage_Report.md`**](BMW_E46_EDC16C31_Analysis_and_Stage_Report.md) | Complete ECU analysis of `bmw backup.bin`, engineering notes for R70 + 216 + Hybrid + GM 5L40-E, Stage 1/2/3/Popcorn specs, `berat son 19.10.2026` teardown, and WinOLS / TunerPro map address reference table |
 | [**`stage2_variants/Stage2_File_Comparison.md`**](stage2_variants/Stage2_File_Comparison.md) | Byte-level comparison of the 10 experimental Stage 2/3 variant binaries against Reference Stage 2, including axis anomalies, SOI / 2nd rail boundary warnings, and checksum caveats |
+| [**`scripts/generate_charts.py`**](scripts/generate_charts.py) | Reproducible Python script that extracts the active torque limiters, boost targets, GM 5L40-E gear limits, and 1600-bar injector duration curves directly from the `.bin` files to render `docs/dyno_curves.png` and `docs/calibration_overview.png` |
 
 ---
 
