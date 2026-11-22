@@ -46,9 +46,8 @@
 
 | Document | Description |
 | :--- | :--- |
-| [**`BMW_E46_EDC16C31_Analysis_and_Stage_Report.md`**](BMW_E46_EDC16C31_Analysis_and_Stage_Report.md) | Complete ECU analysis of `bmw backup.bin`, engineering notes for R70 + 216 + Hybrid + GM 5L40-E, Stage 1/2/3/Popcorn specs, `berat son 19.10.2026` teardown, and WinOLS / TunerPro map address reference table |
+| [**`BMW_E46_EDC16C31_Analysis_and_Stage_Report.md`**](BMW_E46_EDC16C31_Analysis_and_Stage_Report.md) | Complete ECU analysis of `bmw backup.bin`, engineering notes for R70 + 216 + Hybrid + GM 5L40-E, Stage 1/2/3/Popcorn specs, and WinOLS / TunerPro map address reference table |
 | [**`stage2_variants/Stage2_File_Comparison.md`**](stage2_variants/Stage2_File_Comparison.md) | Byte-level comparison of the 10 experimental Stage 2/3 variant binaries against Reference Stage 2, including axis anomalies, SOI / 2nd rail boundary warnings, and checksum caveats |
-| [**`scripts/generate_charts.py`**](scripts/generate_charts.py) | Reproducible Python script that extracts the active torque limiters, boost targets, GM 5L40-E gear limits, and 1600-bar injector duration curves directly from the `.bin` files to render `docs/dyno_curves.png` and `docs/calibration_overview.png` |
 
 ---
 
@@ -77,7 +76,6 @@
 | `BMW_E46_320d_R70_216_Hybrid_Stage3_Popcorn_4800RPM.bin` | `473863e9e3037357dda31f3e5af4ae46` | Stage 3 + 4800 RPM Hardcut / Popcorn |
 | `bmw backup.bin` | `db288c01ac8fa701f72eb9444e85906a` | Original analyzed readout (Stage 1 + EGR Off + inflated 131 injector duration — **do not run with 216 injectors**) |
 | `bmw_e46_Original SOI.bin` | `c11fbcf15ae1519b55cf4c066951248e` | Reference file with 216 injector Duration and stock SOI |
-| `berat son 19.10.2026` | `15d661e458a80fa8cf1a85f774cae747` | Reference Stage 2/2+ file with 216 Duration, Hybrid VNT, 2650 mbar boost, and partial 4700 RPM cut |
 
 ### Variant Comparison Archive (`stage2_variants/`)
 
