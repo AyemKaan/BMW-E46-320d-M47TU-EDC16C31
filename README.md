@@ -1,15 +1,14 @@
-# BMW E46 320d (M47TÜ) — Bosch EDC16C31 ECU Analysis & Calibration Package
+# BMW E46 320d (M47TÜ) — Bosch EDC16C31 (`SW 1037361858`) ECU Calibration, TunerPro XDF & Map Pack
 
-**Vehicle / Engine:** BMW E46 320d 2.0d (M47TÜ / M47D20O1, 150 HP stock, 4-cyl 16V Common-Rail)  
-**ECU:** Bosch **EDC16C31** (DDE 5.0) — 1 MB Flash (`1,048,576` bytes, Big-Endian 16-bit)  
-**Software / Calibration ID:** SW `1037361858` (`10373618581974842A`) | Cal `O_U6K482`  
+**Vehicle / Engine:** BMW E46 320d 2.0d (`M47TÜ` / `M47D20O1`, 150 HP / 110 kW stock, 4-cyl 16V Common-Rail)  
+**ECU:** Bosch **EDC16C31** (`DDE 5.0` / `DDE5`) — 1 MB Flash (`1,048,576` bytes, Big-Endian 16-bit)  
+**Software / Calibration ID:** Bosch SW `1037361858` (`10373618581974842A`) | BMW Cal ID `O_U6K482` (`0001970048020KU60`)  
 **Target Hardware Setup:**
-- Bosch CP3 **R70** High-Pressure Fuel Pump
-- Bosch **0 445 110 216** Injectors
-- **Hybrid Turbocharger**
-- **GM 5L40-E** (A5S390R) 5-Speed Automatic Transmission
-- Stock **3-Bar MAP Sensor** (`3000 mbar` ceiling)
-- Stock **1800-Bar Rail Pressure Sensor** (`1650 bar` safe operating ceiling)
+- Bosch CP3 **R70** High-Pressure Fuel Pump (`0 445 010 070` / `0445010070`)
+- Bosch **0 445 110 216** (`0445110216`) Upgrade Injectors *(replacing stock `0 445 110 131` / `0445110131`)*
+- **Hybrid Turbocharger** (VNT / N75 geometry calibrated)
+- **GM 5L40-E** (`A5S390R`) 5-Speed Automatic Transmission (TCC lock-up & per-gear torque protection)
+- Stock **3-Bar MAP Sensor** (`3000 mbar` absolute limit) & Stock **1800-Bar Rail Pressure Sensor** (`1650 bar` operating ceiling)
 
 ---
 
@@ -42,10 +41,11 @@
 
 ---
 
-## Documentation
+## Documentation & Definition Files
 
-| Document | Description |
+| File | Description |
 | :--- | :--- |
+| [**`BMW_E46_320d_EDC16C31_1037361858.xdf`**](BMW_E46_320d_EDC16C31_1037361858.xdf) | **TunerPro XDF Map Definition File (42 Maps/Curves/Constants)** — Byte-verified for Bosch EDC16C31 SW `1037361858` (`O_U6K482`): Driver Wish, Torque Limiters, GM 5L40-E Gear Limits, NM2IQ, 216 Injector Duration, Boost, VNT, Rail, EGR & Swirl Flaps |
 | [**`BMW_E46_EDC16C31_Analysis_and_Stage_Report.md`**](BMW_E46_EDC16C31_Analysis_and_Stage_Report.md) | Complete ECU analysis of `bmw backup.bin`, engineering notes for R70 + 216 + Hybrid + GM 5L40-E, Stage 1/2/3/Popcorn specs, and WinOLS / TunerPro map address reference table |
 | [**`stage2_variants/Stage2_File_Comparison.md`**](stage2_variants/Stage2_File_Comparison.md) | Byte-level comparison of the 10 experimental Stage 2/3 variant binaries against Reference Stage 2, including axis anomalies, SOI / 2nd rail boundary warnings, and checksum caveats |
 
@@ -91,8 +91,43 @@ Contains 10 additional Stage 2 / Stage 3 experimental binaries (`bmw_e46_stage2*
 
 ---
 
+## WinOLS / TunerPro Map Address Reference (`SW 1037361858` / `O_U6K482`)
+
+| Category | Map / Function (Bosch DAMOS Name) | Data Address *(Header/Axis)* | Size | Format & Scaling |
+| :--- | :--- | :--- | :---: | :--- |
+| **Pedal** | Driver Wish 1 (`AccPed_trqEngLow_MAP`) | `0x0E0672` *(`0x0E063C`)* | 16x9 | 16-bit HiLo Signed, `× 0.1 = Nm` |
+| **Pedal** | Driver Wish 2 (`AccPed_trqEngHigh_MAP`) | `0x0E08B6` *(`0x0E0880`)* | 16x9 | 16-bit HiLo Signed, `× 0.1 = Nm` |
+| **Air / EGR** | EGR Base Map (`AirCtl_mDesBas_MAP`) | `0x0E13AE` *(`0x0E1372`)* | 12x16 | 16-bit HiLo, `× 0.1 = mg/str` |
+| **Air / EGR** | EGR Hysteresis 1 & 2 (`AirCtl_qHiRgn_CUR` / `qLoRgn_CUR`) | `0x0E2A22`, `0x0E2B54` | 25x1 (x2) | 16-bit HiLo, `× 0.01 = mg/str` (`0 = EGR Off`) |
+| **Air / Flaps** | Swirl Flaps (`IndSys_rVSA_MAP`) | `0x0E9EEC` *(`0x0E9EA8`)* | 16x16 | 16-bit HiLo, `× 0.01 = %` |
+| **Torque** | Torque Limiter 1 (`EngPrt_trqLim_CUR`) | `0x0E66DA` *(`0x0E66AE`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
+| **Torque / EGS** | AT TCC Lock-Up Gear Switch (`EngPrt_swtTrqGear_CUR`) | `0x0E6D86` *(`0x0E6D74`)* | 8x1 | 16-bit HiLo, `0 = Off, 1 = Active` |
+| **Torque** | Main Torque Limiter 2 (`EngPrt_trqLim1_CUR`) | `0x0E6DC2` *(`0x0E6D96`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
+| **Torque** | Launch Torque Limiter 3 (`EngPrt_trqLimDA_CUR`) | `0x0E6E18` *(`0x0E6DEC`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
+| **Torque / EGS** | AT TCC Lock-Up Torque Limiter 4 (`EngPrt_trqCBLim_CUR`) | `0x0E6E6A` *(`0x0E6E42`)* | 19x1 | 16-bit HiLo, `× 0.1 = Nm` |
+| **Torque** | Torque Limiter 5 (`EngPrt_trqCBLim1_CUR`) | `0x0E6EC4` *(`0x0E6E98`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
+| **Torque / Cut** | Rev Limiter / Normal Op. Torque Limit 6 (`EngPrt_trqNLim_CUR`) | `0x0E6F1A` *(`0x0E6EEE`)* | 21x1 | 16-bit HiLo, `× 0.1 = Nm` |
+| **GM 5L40-E** | 1st–5th Gear Torque Limits (`Gearbx_trqMaxGear1..5_CUR`) | `0x0E945A`, `0x0E94C0`, `0x0E9526`, `0x0E958C`, `0x0E95F2` | 15x1 (x5) | 16-bit HiLo, `× 0.1 = Nm` |
+| **Smoke** | Smoke / Lambda Maps 1 & 2 (`FlMng_rLmbdSmk_MAP` / `Smk2`) | `0x0E77D2`, `0x0E7A16` | 16x16 (x2) | 16-bit HiLo, `× 0.001 = Lambda` |
+| **Conversion** | Torque → IQ Maps 1–3 (`FMTC_trq2qBas_MAP`) | `0x0E80EA`, `0x0E832E`, `0x0E8572` | 16x16 (x3) | 16-bit HiLo, `× 0.01 = mg/str` |
+| **Duration** | Injector Duration Maps 1–6 (`InjVCD_tiET_MAP`) | `0x0F5364`, `0x0F57C8`, `0x0F5C2C`, `0x0F6090`, `0x0F64F4`, `0x0F6958` | 16x32 (x6) | 16-bit HiLo, `× 1.0 = µs` |
+| **Turbo VNT** | VNT N75 Duty Cycle Maps 1–4 (`PCR_rCtlBas_MAP`) | `0x0F7F44`, `0x0F8478`, `0x0F86BC`, `0x0F8900` | 16x16 (x4) | 16-bit HiLo, `× 0.012207 = %` |
+| **Turbo Boost** | Target Boost Maps 1–3 (`PCR_pDesBas_MAP`) | `0x0F9394`, `0x0F95D8`, `0x0F981C` | 16x16 (x3) | 16-bit HiLo, `× 1.0 = mbar` |
+| **Turbo Limit** | Atmospheric Max Boost (`PCR_pDesMaxAP_MAP`) | `0x0F9A48` *(`0x0F9A1C`)* | 10x10 | 16-bit HiLo, `× 1.0 = mbar` |
+| **Turbo SVBL** | Single Value Boost Limit (`PCR_pDesMax_C`) | `0x0F9C60` | 1x1 | 16-bit HiLo, `× 1.0 = mbar` |
+| **Rail** | Rail Pressure Base Map 1 (`Rail_pSetPointBase_MAP`) | `0x0FC9D0` *(`0x0FC98C`)* | 16x16 | 16-bit HiLo, `× 0.1 = bar` |
+| **Rail Limit** | Rail Single Limiters & Max Table (`Rail_pSetPointMax`) | `0x0FD060` (2x1), `0x0FD1DC` (12x8) | 2x1, 12x8 | 16-bit HiLo, `× 0.1 = bar` |
+
+---
+
 ## Important Safety & Verification Notice
 
 - **Checksum Verification Required:** Always verify and recalculate EDC16C31 checksums using a dedicated flashing tool (e.g., KESS, MPPS, BDM100, or WinOLS checksum module) before writing any `.bin` file to an ECU.
 - **Independent Verification Advisories:** As documented in [`stage2_variants/Stage2_File_Comparison.md`](stage2_variants/Stage2_File_Comparison.md), SOI window/scaling definitions, the 2nd rail map boundary, and NM2IQ axes in the variant binaries require verification against matched ECU definition files before flashing.
 - **Disclaimer:** All binaries and notes are provided for educational and research purposes only. Always perform live datalogging (boost, rail pressure, IQ, EGT, and transmission slip) and use entirely at your own risk.
+
+---
+
+## Related ECU Calibration Projects
+
+- [**Suzuki Grand Vitara 1.9 DDiS (F9Q / Bosch EDC16C3-10.25) — ECU Tuning Package**](https://github.com/AyemKaan/Suzuki-Grand-Vitara-1.9-DDiS-EDC16C3) — Stage 1+ calibrations, N75/VNT limp-mode fix, EGR/TVA delete, 4300 RPM hardcut popcorn, and dyno curves.
