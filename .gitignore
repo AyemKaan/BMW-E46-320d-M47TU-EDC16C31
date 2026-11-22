@@ -1,0 +1,26 @@
+# Large local A2L/DAMOS database (500+ MB)
+EDC 16 a2l database/
+
+# Local working folders & original Turkish exports
+Nieuwe map/
+bmw_e46/
+BMW_E46_EDC16C31_Analiz_ve_Stage_Raporu.md
+*.pdf
+
+# Archives & unrelated local files
+*.rar
+*.zip
+*.stl
+
+# Local duplicate / intermediate binary copies
+/bmw backup
+/bmw_e46.bin
+/berat
+/TUNERPAD_bmw_e46_NOCHK_20260127211557.bin
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+._*
+*.swp
+*.tmp
