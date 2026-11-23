@@ -118,30 +118,31 @@ The table below lists all critical control maps inside `bmw backup.bin`, includi
 
 ---
 
-## 4. Stage 1, Stage 2, Stage 3 & Popcorn Calibration Specifications (GM 5L40-E Adapted)
+## 4. Active Calibration Specifications (GM 5L40-E Adapted & Audited)
 
-The matrix below details the calibration targets for the four `.bin` files generated for **R70 Pump + 216 Injectors + Hybrid Turbo + GM 5L40-E Automatic + Stock 3-Bar MAP + Stock Rail Sensor**:
+The matrix below details the exact calibration targets for the four active, byte-audited `.bin` files built for **R70 Pump + 216 Injectors + Hybrid Turbo + GM 5L40-E Automatic + Stock Rail Sensor**:
 
-| Parameter / Map Group | Stage 1 (`..._Stage1.bin`) | Stage 2 (`..._Stage2.bin`) | Stage 3 (`..._Stage3.bin`) | Stage 3 + Popcorn (`..._Popcorn_4800RPM.bin`) |
+| Parameter / Map Group | Stage 2 StockVNT (`..._Stage2_StockVNT.bin`) | Stage 2 StockVNT + Popcorn (`..._Stage2_StockVNT_Popcorn_4800RPM.bin`) | Stage 2+ 100 mg (`..._Stage2Plus_100mg_StockVNT_Popcorn_4800RPM.bin`) | Stage 3 4-Bar MAP (`..._Stage3_4BarMAP_Popcorn_4800RPM.bin`) |
 | :--- | :--- | :--- | :--- | :--- |
-| **Target Power & Torque** *(estimated, unverified on dyno)* | **~205–210 HP / 440 Nm** | **~235 HP / 485 Nm** | **~255–265 HP / 515 Nm** | **~255–265 HP / 515 Nm + 4800 RPM Hardcut** |
-| **Driver Wish (`0x0E063C`, `0x0E0880`)** | Max `450 Nm` (smooth GM 5L40-E pedal) | Max `500 Nm` (sporty GM 5L40-E pedal) | Max `540 Nm` (progressive GM 5L40-E pedal) | Max `540 Nm` (progressive GM 5L40-E pedal) |
-| **Main & TCC Torque Limiters (`0x0E6D96`, `0x0E6E42`)** | 1750 RPM: `395 Nm`, 2250–2750 RPM: **`440 Nm`**, 4000 RPM: `426 Nm` | 1750 RPM: `415 Nm`, 2250–3000 RPM: **`485 Nm`**, 4000 RPM: `472 Nm` | 1750 RPM: `435 Nm`, 2250–3000 RPM: **`515 Nm`**, 4000 RPM: `500 Nm` | **`4790 RPM: Full Torque` → `4800 RPM: 0 Nm`** (6 limiters + 3 NM2IQ synchronized) |
-| **GM 5L40-E Gear Torque Limits (`0x0E943A – 0x0E95D2`)** | 1st: **`400 Nm`**, 2nd: **`430 Nm`**, 3rd–4th: **`440 Nm`**, 5th: **`430 Nm`** | 1st: **`420 Nm`**, 2nd: **`465 Nm`**, 3rd–4th: **`485 Nm`**, 5th: **`465 Nm`** | 1st: **`440 Nm`**, 2nd: **`490 Nm`**, 3rd–4th: **`515 Nm`**, 5th: **`485 Nm`** | 1st: **`440 Nm`**, 2nd: **`490 Nm`**, 3rd–4th: **`515 Nm`**, 5th: **`485 Nm`** |
-| **Torque → IQ (`0x0E80A6 – 0x0E8772`)** | `440 Nm` → **`~72 mg/str`** (CAN-Bus linear) | `485 Nm` → **`~80 mg/str`** (CAN-Bus linear) | `515 Nm` → **`~88–90 mg/str`** (CAN-Bus linear) | `515 Nm` → **`~88–90 mg/str`** (CAN-Bus linear) |
-| **Injector Duration (`0x0F5300 – 0x0F6D58`)** | **True 216 Calibration** (`72 mg @ 1600 bar = ~835 µs`) | **True 216 Calibration** (`80 mg @ 1600 bar = 902 µs`) | **True 216 Calibration** (`90 mg @ 1600 bar = ~990 µs`) | **True 216 Calibration** (`90 mg @ 1600 bar = ~990 µs`) |
-| **Start of Injection / SOI (`0x0EA7C6 – 0x0EB31A`)** | `40%` blend (**`+1.0° – +1.5° CA`**) | `75%` blend (**`+2.0° – +2.8° CA`**) | `100%` target (**`32.51° CA`** max) | `100%` target (**`32.51° CA`** max) |
-| **Target Boost (`0x0F9350 – 0x0F9A1C`)** | **`2600 mbar`** (1.60 bar — stock 3-bar MAP safe) | **`2680 mbar`** (1.68 bar — stock 3-bar MAP safe) | **`2780 mbar`** (1.78 bar — stock 3-bar MAP safe ceiling) | **`2780 mbar`** (1.78 bar — stock 3-bar MAP safe ceiling) |
-| **Single Value Boost Limit / SVBL (`0x0F9C60`)** | **`2680 mbar`** (1.68 bar) | **`2750 mbar`** (1.75 bar) | **`2850 mbar`** (1.85 bar — safely below 3000 mbar sensor) | **`2850 mbar`** (1.85 bar — safely below 3000 mbar sensor) |
-| **VNT / N75 (`0x0F7F00 – 0x0F8B00`)** | Base VNT calibration | Hybrid turbo VNT calibration | Hybrid turbo VNT calibration | Hybrid turbo VNT calibration |
-| **Rail Pressure & Limiters (`0x0FC98C – 0x0FD29C`)** | **`1650 bar`** (`1648.5 bar` limit — stock sensor safe) | **`1650 bar`** (`1655.0 bar` limit — stock sensor safe) | **`1650 bar`** (`1655.0 bar` limit — stock sensor safe) | **`1650 bar`** (`1655.0 bar` limit — stock sensor safe) |
-| **Smoke / Lambda (`0x0E778E`, `0x0E79D2`)** | Lambda **`1.15`** (`1150` — AFR 16.7, smoke-free) | Lambda **`1.08`** (`1080` — AFR 15.6, minimal haze) | Lambda **`1.03`** (`1030` — AFR 14.9, power-oriented) | Lambda **`1.03`** (`1030` — AFR 14.9, power-oriented) |
-| **EGR & Swirl Flaps** | EGR **OFF**, Swirl Flaps Stock | EGR **OFF**, Swirl Flaps **OFF (`0%`)** | EGR **OFF**, Swirl Flaps **OFF (`0%`)** | EGR **OFF**, Swirl Flaps **OFF (`0%`)** |
-| **Popcorn / Hardcut RPM** | None (`4950–5020 RPM` soft cut, uninterrupted kickdown) | None (`4950–5020 RPM` soft cut, uninterrupted kickdown) | None (`4950–5020 RPM` soft cut, uninterrupted kickdown) | **ENABLED (`4790 → 4800 RPM` Hardcut)** |
+| **Required MAP & Cooling** | Stock 3-Bar MAP (`3000 mbar`) | Stock 3-Bar MAP (`3000 mbar`) | Stock 3-Bar MAP (`3000 mbar`) | **BMW OEM 4-Bar MAP (`13 62 7 792 260`) + FMIC** |
+| **Target Power & Torque** *(estimated, unverified on dyno)* | **~235 HP / 485 Nm** | **~235 HP / 485 Nm + 4800 Popcorn** | **~275–290 HP / 535→580 Nm + 4800 Popcorn** | **~260–275 HP / 515 Nm + 4800 Popcorn** |
+| **Driver Wish (`0x0E063C`, `0x0E0880`)** | Max `500 Nm` | Max `500 Nm` | Max `600 Nm` (0–50% pedal smooth) | Max `540 Nm` |
+| **Main & TCC Torque Limiters (`0x0E6D96`, `0x0E6E42`)** | 1750: `415 Nm`, 2500–3000: **`485 Nm`**, 4000: `470 Nm` | Same + **`4799→4800: 0 Nm`** Hardcut | 2500–3000: **`535–545 Nm`** → 3500–4200: **`580 Nm`** + `4799→4800: 0 Nm` | 1750: `435 Nm`, 2500–3000: **`515 Nm`**, 4000: `498 Nm` + `4799→4800: 0 Nm` |
+| **GM 5L40-E Gear Torque Limits (`0x0E943A – 0x0E95D2`)** | 1st: **`420`**, 2nd: **`465`**, 3rd–4th: **`485`**, 5th: **`465 Nm`** | 1st: **`420`**, 2nd: **`465`**, 3rd–4th: **`485`**, 5th: **`465 Nm`** | 1st: **`450`**, 2nd/5th: **`505–510 → 540`**, 3rd–4th: **`535–545 → 580 Nm`** | 1st: **`440`**, 2nd: **`490`**, 3rd–4th: **`515`**, 5th: **`485 Nm`** |
+| **Torque → IQ (`0x0E80A6 – 0x0E8772`)** | `485 Nm` → **`~80 mg/str`** (CAN linear) | `485 Nm` → **`~80 mg/str`** (`4800: 0 mg`) | `580 Nm` → **`100.0 mg/str`** (`4800: 0 mg`) | `515 Nm` → **`~88–90 mg/str`** (`4800: 0 mg`) |
+| **Injector Duration (`0x0F5300 – 0x0F6D58`)** | **True Bosch 216** (`95 mg = 1032 µs`) | **True Bosch 216** (`95 mg = 1032 µs`) | **Extended Bosch 216** (`100 mg = 1075 µs`, `25.8° CA` @ 4000) | **True Bosch 216** (`95 mg = 1032 µs`) |
+| **Start of Injection / SOI (`0x0EA7C8 – 0x0EB31C`)** | Clean aligned SOI (`≤ 32.7°`) | Clean aligned SOI (`≤ 32.7°`) | Rescaled **`80/100 mg`**, `+1.4°–2.1°` (`≤ 32.8°`, clean EOI) | Clean aligned SOI (`32.51°` max) |
+| **Target Boost (`0x0F9350 – 0x0F9A1C`)** | **`2650 mbar`** (`2480` @ 4750) | **`2650 mbar`** (`2480` @ 4750) | **`2780 mbar`** (`2580` @ 4750 — 3-bar MAP safe) | **`2950 mbar`** (`2860` @ 4750 — 4-bar MAP) |
+| **SVBL (`0x0F9C60`) / AtmMax (`0x0F9A48`)** | **`2900` / `2850 mbar`** | **`2900` / `2850 mbar`** | **`2950` / `2900 mbar`** | **`3100` / `3050 mbar`** |
+| **VNT / N75 (`0x0F7F44 – 0x0F8B00`)** | **Factory Stock VNT** + Overboost PID + Hot-IAT=0 | **Factory Stock VNT** + Overboost PID + Hot-IAT=0 | **Factory Stock VNT** + Overboost PID + Hot-IAT=0 | **Factory Stock VNT** + Overboost PID + Hot-IAT=0 |
+| **Rail Pressure & Limiters (`0x0FC98C – 0x0FD29C`)** | **`1650 bar`** (`1655 bar` max) | **`1650 bar`** (`1655 bar` max) | **`1650 bar`** (`1655 bar` max) | **`1650 bar`** (`1655 bar` max) |
+| **Smoke / Lambda (`0x0E778E`, `0x0E79D2`)** | **`0.93–1.06`** (minimal smoke) | **`0.93–1.06`** (minimal smoke) | **`0.80–0.83`** full load (`0.84–0.86` top-end EGT guard) | **`0.92–1.03`** (clean 4-bar power) |
+| **EGR & Swirl Flaps** | EGR **OFF**, Swirl Flaps **OFF (`0%`)** | EGR **OFF**, Swirl Flaps **OFF (`0%`)** | EGR **OFF**, Swirl Flaps **OFF (`0%`)** | EGR **OFF**, Swirl Flaps **OFF (`0%`)** |
+| **Popcorn / Hardcut (incl. P/N `0x0E93D4`)** | Off (`4950–5020` soft cut) | **ENABLED (`4799 → 4800 RPM`, P/N + Load)** | **ENABLED (`4799 → 4800 RPM`, P/N + Load)** | **ENABLED (`4799 → 4800 RPM`, P/N + Load)** |
 
 ---
 
-## 5. Generated Calibration `.bin` Files
+## 5. Active Calibration `.bin` Files
 
 | File Name | Size | MD5 Hash | Description |
 | :--- | :--- | :--- | :--- |
@@ -149,10 +150,6 @@ The matrix below details the calibration targets for the four `.bin` files gener
 | `BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT_Popcorn_4800RPM.bin` | 1,048,576 B | `26f2ab34c97154be8198ad140f0cea2e` | **Stage 2 StockVNT + 4800 RPM Popcorn** — Synchronized 1-RPM `4799 → 4800 RPM` Hardcut across all 6 torque limiters, 3 NM2IQ maps, and Park/Neutral standstill limiter `0x0E93D4` (`Gearbx_trqInMax_CUR`) |
 | `BMW_E46_320d_R70_216_Hybrid_Stage2Plus_100mg_StockVNT_Popcorn_4800RPM.bin` | 1,048,576 B | `c1a90a4ccd7904661766ba34b395b3b5` | **Stage 2+ 100 mg + Performance Smoke (Stock 3-Bar MAP)** — `2780 mbar` peak / `2950 SVBL`, `100 mg` Duration (`1075 µs` @ 1600 bar), `580 Nm` NM2IQ, `λ = 0.80–0.86`, `80/100 mg` SOI (`≤32.8°`), `105 mg` Hard IQ, GM 5L40-E mid-range shaping (`535–545 Nm` → `580 Nm` @ 3500–4200 RPM), Factory Stock VNT, 4800 RPM P/N + Load Popcorn |
 | `BMW_E46_320d_R70_216_Hybrid_Stage3_4BarMAP_Popcorn_4800RPM.bin` | 1,048,576 B | `e51e7c04dfb2951bdf40c237b432abf4` | **Stage 3 (Requires BMW OEM 4-Bar MAP `13 62 7 792 260` + FMIC!)** — `BPSCD_pLin_CUR` 4-bar curve, `2950 mbar` boost / `3100 SVBL`, `515 Nm` GM 5L40-E protection, Factory Stock VNT + Stock `PCR_rGvnrMax`, clean Swirl/SOI/Rail, crisp `4799 → 4800 RPM` 1-RPM Popcorn (P/N `0x0E93D4` unlocked) |
-| `BMW_E46_320d_R70_216_Hybrid_Stage1.bin` | 1,048,576 B | `5c63681a2f2a92dd1d0121de6b4e0e4c` | Stage 1 (440 Nm / ~72 mg / 1.60 bar Boost / 1650 bar Rail / 216 Injectors / Stock VNT / GM 5L40-E Protection / EGR Off) |
-| `BMW_E46_320d_R70_216_Hybrid_Stage2.bin` | 1,048,576 B | `7b945c6124e0ededb2a72eb31836fc9e` | Legacy Stage 2 reference (superseded by `Stage2_StockVNT.bin`) |
-| `BMW_E46_320d_R70_216_Hybrid_Stage3.bin` | 1,048,576 B | `af8e6d70defa440bd73e05a8f7eae99e` | Legacy Stage 3 (Stock 3-Bar MAP — 515 Nm / ~90 mg / 2780 mbar Boost - 2850 SVBL) |
-| `BMW_E46_320d_R70_216_Hybrid_Stage3_Popcorn_4800RPM.bin` | 1,048,576 B | `473863e9e3037357dda31f3e5af4ae46` | Legacy Stage 3 (Stock 3-Bar MAP) + `4790 → 4800 RPM` Hardcut / Popcorn |
 
 ---
 

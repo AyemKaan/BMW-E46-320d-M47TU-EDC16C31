@@ -8,7 +8,7 @@
 - Bosch **0 445 110 216** (`0445110216`) Upgrade Injectors *(replacing stock `0 445 110 131` / `0445110131`)*
 - **Big-Wheel Vacuum-Actuated Hybrid Turbocharger** (Factory Stock VNT geometry + Stock `PCR_rGvnrMax` + Overboost PID & Hot-IAT fix)
 - **GM 5L40-E** (`A5S390R`) 5-Speed Automatic Transmission (TCC lock-up & per-gear torque protection)
-- **Stock 3-Bar MAP Sensor** (`0 281 002 437`, `3000 mbar` ceiling — Stage 1/2/3) **or BMW OEM 4-Bar MAP Sensor** (`13 62 7 792 260` / Bosch `0 281 002 997`, `4000 mbar` — Stage 3 4-Bar MAP + FMIC)
+- **Stock 3-Bar MAP Sensor** (`0 281 002 437`, `3000 mbar` ceiling — Stage 2 / Stage 2+ 100 mg) **or BMW OEM 4-Bar MAP Sensor** (`13 62 7 792 260` / Bosch `0 281 002 997`, `4000 mbar` — Stage 3 4-Bar MAP + FMIC)
 - Stock **1800-Bar Rail Pressure Sensor** (`1650 bar` operating ceiling)
 
 ---
@@ -19,22 +19,22 @@
 
 > **Note:** ECU Torque values (`Nm`) are read directly from the active ECU torque limiters (`min(0x0E6DC2, 0x0E6E6A, 0x0E6F1A, 0x0E0672)`). Crank Power (`HP`) is estimated using an M47TÜ friction loss baseline calibrated to the factory 150 HP @ 4000 RPM rating and has not been measured on a physical chassis dyno.
 
-| Engine RPM | Stock OEM Ref (ECU Nm / Est. HP) | Stage 1 (ECU Nm / Est. HP) | **Stage 2 StockVNT (ECU Nm / Est. HP)** | **Stage 2+ 100 mg StockVNT + Popcorn** | **Stage 3 4-Bar MAP + 4800 Popcorn** |
+| Engine RPM | Stock OEM Ref (ECU Nm / Est. HP) | **Stage 2 StockVNT (ECU Nm / Est. HP)** | **Stage 2 StockVNT + Popcorn** | **Stage 2+ 100 mg StockVNT + Popcorn** | **Stage 3 4-Bar MAP + 4800 Popcorn** |
 | :---: | :---: | :---: | :---: | :---: | :---: |
-| **1000** | 220 Nm / 28.5 HP | 315 Nm / 42.0 HP | **330 Nm / 44.1 HP** | **330 Nm / 44.1 HP** | **345 Nm / 46.3 HP** |
-| **1500** | 340 Nm / 67.2 HP | 360 Nm / 71.5 HP | **375 Nm / 74.7 HP** | **390 Nm / 78.0 HP** | **390 Nm / 78.0 HP** |
-| **1750** | 348 Nm / 79.8 HP | 395 Nm / 91.4 HP | **415 Nm / 96.4 HP** | **435 Nm / 101.4 HP** | **435 Nm / 101.4 HP** |
-| **2000** | 358 Nm / 93.1 HP | 420 Nm / 110.8 HP | **445 Nm / 117.9 HP** | **475 Nm / 126.4 HP** | **465 Nm / 123.6 HP** |
-| **2250** | 362 Nm / 105.2 HP | **440 Nm** / 130.1 HP | **475 Nm / 141.3 HP** | **510 Nm / 152.5 HP** | **495 Nm / 147.7 HP** |
-| **2500** | **367 Nm** / 117.4 HP | **440 Nm** / 143.4 HP | **485 Nm / 159.5 HP** | **535 Nm / 177.3 HP** | **515 Nm / 170.1 HP** |
-| **3000** | 365 Nm / 136.8 HP | 436 Nm / 167.0 HP | **482 Nm / 186.7 HP** | **545 Nm / 213.6 HP** | **512 Nm / 199.5 HP** |
-| **3500** | 348 Nm / 147.3 HP | 432 Nm / 189.4 HP | **478 Nm / 212.3 HP** | **580 Nm / 263.1 HP** | **508 Nm / 227.2 HP** |
-| **4000** | 322 Nm / **149.8 HP** | 423 Nm / 207.3 HP | **470 Nm / 234.1 HP** | **580 Nm / 296.7 HP*** | **498 Nm / 250.0 HP** |
-| **4400** | 293 Nm / 142.0 HP | 406 Nm / 213.0 HP | **448 Nm / 239.3 HP** | **570 Nm / 315.7 HP*** | **476 Nm / 256.9 HP** |
-| **4600** | 274 Nm / 133.9 HP | 400 Nm / **216.1 HP** | **442 Nm / 243.6 HP** | **560 Nm / 320.9 HP*** | **475 Nm / 265.6 HP** |
-| **4799** | 135 Nm / 40.7 HP | 290 Nm / 146.9 HP | **290 Nm / 146.9 HP** | **550 Nm / 324.6 HP*** | **475 Nm / 273.5 HP** |
-| **4800** | 134 Nm / 40.3 HP | 288 Nm / 145.6 HP | **288 Nm / 145.6 HP** | **0 Nm (1-RPM Hardcut)** | **0 Nm (1-RPM Hardcut)** |
-| **4950** | 0 Nm / 0.0 HP | 0 Nm / 0.0 HP | **0 Nm / 0.0 HP** | **0 Nm / 0.0 HP** | **0 Nm / 0.0 HP** |
+| **1000** | 220 Nm / 28.5 HP | **330 Nm / 44.1 HP** | **330 Nm / 44.1 HP** | **330 Nm / 44.1 HP** | **345 Nm / 46.3 HP** |
+| **1500** | 340 Nm / 67.2 HP | **375 Nm / 74.7 HP** | **375 Nm / 74.7 HP** | **390 Nm / 78.0 HP** | **390 Nm / 78.0 HP** |
+| **1750** | 348 Nm / 79.8 HP | **415 Nm / 96.4 HP** | **415 Nm / 96.4 HP** | **435 Nm / 101.4 HP** | **435 Nm / 101.4 HP** |
+| **2000** | 358 Nm / 93.1 HP | **445 Nm / 117.9 HP** | **445 Nm / 117.9 HP** | **475 Nm / 126.4 HP** | **465 Nm / 123.6 HP** |
+| **2250** | 362 Nm / 105.2 HP | **475 Nm / 141.3 HP** | **475 Nm / 141.3 HP** | **510 Nm / 152.5 HP** | **495 Nm / 147.7 HP** |
+| **2500** | **367 Nm** / 117.4 HP | **485 Nm / 159.5 HP** | **485 Nm / 159.5 HP** | **535 Nm / 177.3 HP** | **515 Nm / 170.1 HP** |
+| **3000** | 365 Nm / 136.8 HP | **482 Nm / 186.7 HP** | **482 Nm / 186.7 HP** | **545 Nm / 213.6 HP** | **512 Nm / 199.5 HP** |
+| **3500** | 348 Nm / 147.3 HP | **478 Nm / 212.3 HP** | **478 Nm / 212.3 HP** | **580 Nm / 263.1 HP** | **508 Nm / 227.2 HP** |
+| **4000** | 322 Nm / **149.8 HP** | **470 Nm / 234.1 HP** | **470 Nm / 234.1 HP** | **580 Nm / 296.7 HP*** | **498 Nm / 250.0 HP** |
+| **4400** | 293 Nm / 142.0 HP | **448 Nm / 239.3 HP** | **448 Nm / 239.3 HP** | **570 Nm / 315.7 HP*** | **476 Nm / 256.9 HP** |
+| **4600** | 274 Nm / 133.9 HP | **442 Nm / 243.6 HP** | **445 Nm / 245.6 HP** | **560 Nm / 320.9 HP*** | **475 Nm / 265.6 HP** |
+| **4799** | 135 Nm / 40.7 HP | **290 Nm / 146.9 HP** | **442 Nm / 250.8 HP** | **550 Nm / 324.6 HP*** | **475 Nm / 273.3 HP** |
+| **4800** | 134 Nm / 40.3 HP | **288 Nm / 145.6 HP** | **0 Nm (1-RPM Hardcut)** | **0 Nm (1-RPM Hardcut)** | **0 Nm (1-RPM Hardcut)** |
+| **4950** | 0 Nm / 0.0 HP | **0 Nm / 0.0 HP** | **0 Nm / 0.0 HP** | **0 Nm / 0.0 HP** | **0 Nm / 0.0 HP** |
 
 *\*Note: On `Stage2Plus_100mg`, torque limiter allows `580 Nm` (`100 mg/str`) across `3500–4200 RPM`, while MAF-based Smoke Lambda (`0.84–0.86` above `4400 RPM`) naturally tapers real injected fuel (`96 → 90 → 82 mg/str`) for turbine EGT protection (realistic peak crank output ~`275–290 HP`).*
 
@@ -60,14 +60,10 @@
 
 | Calibration File | Est. Power / Torque | Fueling (IQ) | Target Boost (SVBL) | MAP Sensor | Lambda | Features / Status |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **`BMW_E46_320d_R70_216_Hybrid_Stage1.bin`** | ~205–210 HP / 440 Nm | ~72 mg/str | 2600 mbar (2680) | Stock 3-Bar | 1.15 | 216 Duration, Stock VNT, GM 5L40-E protection, EGR Off |
-| **`BMW_E46_320d_R70_216_Hybrid_Stage2.bin`** | ~235 HP / 485 Nm | ~80 mg/str | 2680 mbar (2750) | Stock 3-Bar | 1.08 | Legacy Stage 2 reference *(over-closed `VNT1` + `-16%` cliff — superseded by `Stage2_StockVNT`)* |
-| **`BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT.bin`** | **~235 HP / 485 Nm** | **~80 mg/str** | **2650 mbar (2900)** | **Stock 3-Bar** | **0.93–1.06** | **Recommended Stage 2:** Factory BMW OEM Stock VNT (`65.5→44.2%` low / `37.4→15.7%` high) + Stock `PCR_rGvnrMax`, Hot-IAT VNT bonus zeroed, Overboost PID (`PKpNeg +35% / IKiNeg +50%`), clean Swirl/SOI/Rail |
+| **`BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT.bin`** | **~235 HP / 485 Nm** | **~80 mg/str** | **2650 mbar (2900)** | **Stock 3-Bar** | **0.93–1.06** | **Recommended Stage 2 (Daily / Smoke-Free):** Factory BMW OEM Stock VNT (`65.5→44.2%` low / `37.4→15.7%` high) + Stock `PCR_rGvnrMax`, Hot-IAT VNT bonus zeroed, Overboost PID (`PKpNeg +35% / IKiNeg +50%`), clean Swirl/SOI/Rail |
 | **`BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT_Popcorn_4800RPM.bin`** | **~235 HP / 485 Nm** | **~80 mg/str** | **2650 mbar (2900)** | **Stock 3-Bar** | **0.93–1.06** | **Stage 2 StockVNT + 4800 RPM Popcorn:** Identical to `Stage2_StockVNT` + synchronized 1-RPM `4799 → 4800 RPM` Hardcut across all 6 torque limiters, 3 NM2IQ maps & Park/Neutral `0x0E93D4` |
 | **`BMW_E46_320d_R70_216_Hybrid_Stage2Plus_100mg_StockVNT_Popcorn_4800RPM.bin`** | **~275–290 HP / 535→580 Nm** | **100.0 mg/str** | **2780 mbar (2950)** | **Stock 3-Bar** | **0.80–0.86** | **Stage 2+ 100 mg Performance Smoke (Stock 3-Bar MAP):** True `100 mg` Duration (`1075 µs` @ 1600 bar), `580 Nm` NM2IQ, `80/100 mg` SOI (`≤32.8°`), `105 mg` Hard IQ, GM 5L40-E gear protection (`450/540/580/580/540 Nm`), Factory Stock VNT + 4800 RPM P/N + Load Popcorn |
-| **`BMW_E46_320d_R70_216_Hybrid_Stage3.bin`** | ~255–265 HP / 515 Nm | ~88–90 mg/str | 2780 mbar (2850) | Stock 3-Bar | 1.03 | Legacy 3-bar Stage 3 |
-| **`BMW_E46_320d_R70_216_Hybrid_Stage3_Popcorn_4800RPM.bin`** | ~255–265 HP / 515 Nm | ~88–90 mg/str | 2780 mbar (2850) | Stock 3-Bar | 1.03 | Legacy 3-bar Stage 3 + `4790 → 4800 RPM` Hardcut |
-| **`BMW_E46_320d_R70_216_Hybrid_Stage3_4BarMAP_Popcorn_4800RPM.bin`** | **~260–275 HP / 515 Nm** | **~88–90 mg/str** | **2950 mbar (3100)** | **BMW 4-Bar MAP** | **0.92–1.03** | **Full Stage 3 (Requires 4-Bar MAP `13 62 7 792 260` + FMIC!):** True 4-bar `BPSCD_pLin_CUR`, Factory Stock VNT + Stock `PCR_rGvnrMax`, Hot-IAT/PID/Swirl/SOI/Rail fixes, crisp `4799 → 4800 RPM` 1-RPM Popcorn |
+| **`BMW_E46_320d_R70_216_Hybrid_Stage3_4BarMAP_Popcorn_4800RPM.bin`** | **~260–275 HP / 515 Nm** | **~88–90 mg/str** | **2950 mbar (3100)** | **BMW 4-Bar MAP** | **0.92–1.03** | **Full Stage 3 (Requires 4-Bar MAP `13 62 7 792 260` + FMIC!):** True 4-bar `BPSCD_pLin_CUR`, Factory Stock VNT + Stock `PCR_rGvnrMax`, Hot-IAT/PID/Swirl/SOI/Rail fixes, crisp `4799 → 4800 RPM` 1-RPM Popcorn (P/N unlocked) |
 
 ---
 
@@ -81,10 +77,6 @@
 | `BMW_E46_320d_R70_216_Hybrid_Stage2_StockVNT_Popcorn_4800RPM.bin` | `26f2ab34c97154be8198ad140f0cea2e` | **Stage 2 StockVNT + 4800 RPM Popcorn** — Synchronized `4799 → 4800 RPM` 1-RPM Hardcut (including Park/Neutral `0x0E93D4` 4000 RPM standstill limiter unlocked to 4800 RPM) |
 | `BMW_E46_320d_R70_216_Hybrid_Stage2Plus_100mg_StockVNT_Popcorn_4800RPM.bin` | `c1a90a4ccd7904661766ba34b395b3b5` | **Stage 2+ 100 mg + Performance Smoke (Stock 3-Bar MAP)** — `2780 mbar` / `2950 SVBL`, `100 mg` Duration (`1075 µs`), `580 Nm` NM2IQ, `λ = 0.80–0.86`, `80/100 mg` SOI, GM 5L40-E mid-range shaping (`535–545 Nm` → `580 Nm` @ 3500–4200 RPM), Factory Stock VNT, 4800 RPM P/N + Load Popcorn |
 | `BMW_E46_320d_R70_216_Hybrid_Stage3_4BarMAP_Popcorn_4800RPM.bin` | `e51e7c04dfb2951bdf40c237b432abf4` | **Stage 3 (4-Bar MAP `13 62 7 792 260` + FMIC Required)** — 2950 mbar / 3100 SVBL / 515 Nm / Factory Stock VNT / 1-RPM 4800 Popcorn (P/N unlocked) |
-| `BMW_E46_320d_R70_216_Hybrid_Stage1.bin` | `5c63681a2f2a92dd1d0121de6b4e0e4c` | Stage 1 calibration for R70 + 216 + Hybrid + GM 5L40-E |
-| `BMW_E46_320d_R70_216_Hybrid_Stage2.bin` | `7b945c6124e0ededb2a72eb31836fc9e` | Legacy Stage 2 reference calibration |
-| `BMW_E46_320d_R70_216_Hybrid_Stage3.bin` | `af8e6d70defa440bd73e05a8f7eae99e` | Legacy Stage 3 calibration (Stock 3-Bar MAP) |
-| `BMW_E46_320d_R70_216_Hybrid_Stage3_Popcorn_4800RPM.bin` | `473863e9e3037357dda31f3e5af4ae46` | Legacy Stage 3 + 4800 RPM Hardcut / Popcorn (Stock 3-Bar MAP) |
 | `bmw backup.bin` | `db288c01ac8fa701f72eb9444e85906a` | Original analyzed readout (Stage 1 + EGR Off + inflated 131 injector duration — **do not run with 216 injectors**) |
 | `bmw_e46_Original SOI.bin` | `c11fbcf15ae1519b55cf4c066951248e` | Reference file with 216 injector Duration and stock SOI |
 
