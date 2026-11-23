@@ -5,8 +5,6 @@
 **Reference A2L / DAMOS Sources:** Bosch EDC16 A2L / DAMOS Database (`361811BMWEDC16.ols`, `BMW_30D_EDC16_218PS__E60.ols`, `BMW E87 120d DDE5.0 120kW.ols`, `4M534389.A2L`, `4M702389.A2L`)  
 **Hardware Setup:** Bosch CP3 **R70** High-Pressure Fuel Pump + Bosch **0 445 110 216** Injectors + **Big-Wheel Vacuum-Actuated Hybrid Turbo** + **GM 5L40-E 5-Speed Automatic Transmission** + **Stock 3-Bar MAP Sensor (`0 281 002 437`, `3000 mbar`)** *(or BMW OEM 4-Bar MAP `13 62 7 792 260` + FMIC for Stage 3 4-Bar)* + **Stock 1800-Bar Rail Pressure Sensor (`1650 bar` safe operating ceiling)**
 
-> **Note:** For independent byte-level comparison and verification caveats regarding the Stage 2/3 variant files (including SOI window/scaling checks, 2nd rail table boundary overlap, and checksum verification status), also see [`stage2_variants/Stage2_File_Comparison.md`](stage2_variants/Stage2_File_Comparison.md).
-
 ---
 
 ## 1. ECU, Software, and Binary File Identification

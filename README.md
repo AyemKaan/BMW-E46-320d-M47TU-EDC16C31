@@ -49,8 +49,7 @@
 | File | Description |
 | :--- | :--- |
 | [**`BMW_E46_320d_EDC16C31_1037361858.xdf`**](BMW_E46_320d_EDC16C31_1037361858.xdf) | **TunerPro XDF Map Definition File (49 Maps/Curves/Constants)** — Byte-verified for Bosch EDC16C31 SW `1037361858` (`O_U6K482`): Driver Wish, Torque Limiters, GM 5L40-E Gear Limits, NM2IQ, 216 Injector Duration, Boost, VNT Base 1–4, `PCR_rGvnrMax/Min`, PID `facP/I/D`, `PCR_rOutIMax`, MAP `BPSCD_pLin_CUR`, Rail, EGR & Swirl Flaps |
-| [**`BMW_E46_EDC16C31_Analysis_and_Stage_Report.md`**](BMW_E46_EDC16C31_Analysis_and_Stage_Report.md) | Complete ECU analysis of `bmw backup.bin`, engineering notes for R70 + 216 + Hybrid + GM 5L40-E, Stage 1/2/3/Popcorn specs, **Stage 2 StockVNT & Binary Audit Bug Fixes**, **4-Bar MAP Stage 3 guide**, and full WinOLS / TunerPro map reference |
-| [**`stage2_variants/Stage2_File_Comparison.md`**](stage2_variants/Stage2_File_Comparison.md) | Byte-level comparison of the 10 experimental Stage 2/3 variant binaries against Reference Stage 2, including axis anomalies, SOI / 2nd rail boundary warnings, and checksum caveats |
+| [**`BMW_E46_EDC16C31_Analysis_and_Stage_Report.md`**](BMW_E46_EDC16C31_Analysis_and_Stage_Report.md) | Complete ECU analysis of `bmw backup.bin`, engineering notes for R70 + 216 + Hybrid + GM 5L40-E, **Stage 2 StockVNT**, **Stage 2+ 100 mg Performance Smoke**, **4-Bar MAP Stage 3 guide**, Binary Audit Bug Fixes, and full WinOLS / TunerPro map reference |
 
 ---
 
@@ -79,10 +78,6 @@
 | `BMW_E46_320d_R70_216_Hybrid_Stage3_4BarMAP_Popcorn_4800RPM.bin` | `e51e7c04dfb2951bdf40c237b432abf4` | **Stage 3 (4-Bar MAP `13 62 7 792 260` + FMIC Required)** — 2950 mbar / 3100 SVBL / 515 Nm / Factory Stock VNT / 1-RPM 4800 Popcorn (P/N unlocked) |
 | `bmw backup.bin` | `db288c01ac8fa701f72eb9444e85906a` | Original analyzed readout (Stage 1 + EGR Off + inflated 131 injector duration — **do not run with 216 injectors**) |
 | `bmw_e46_Original SOI.bin` | `c11fbcf15ae1519b55cf4c066951248e` | Reference file with 216 injector Duration and stock SOI |
-
-### Variant Comparison Archive (`stage2_variants/`)
-
-Contains 10 additional Stage 2 / Stage 3 experimental binaries (`bmw_e46_stage2*.bin`, `bmw_e46_stage3*.bin`) documented in [`stage2_variants/Stage2_File_Comparison.md`](stage2_variants/Stage2_File_Comparison.md).
 
 ---
 
